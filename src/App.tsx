@@ -12,7 +12,7 @@ function App() {
 
       {/* Indicadores */}
       <Grid size={{ xs: 12, xl: 3 }}>
-        <IndicatorWeather title={'Indicator 1'} subtitle={'Unidad 1'} value={"1.23"} /> 
+        <IndicatorWeather title={'Indicator 1'} subtitle={'Unidad 1'} value={"1.23"} />
       </Grid>
       <Grid size={{ xs: 12, xl: 3 }}>
         <IndicatorWeather title={'Indicator 2'} subtitle={'Unidad 2'} value={"3.12"} />
@@ -25,20 +25,23 @@ function App() {
       </Grid>
 
       {/* Tabla */}
-      <Grid size={{ xs: 12, xl: 8 }}></Grid>
+      <Grid size={{ xs: 12, xl: 8 }}>
+        {/* Grid Anidado */}
+        <Grid container spacing={2}>
+          <Grid size={{ xs: 12, xl: 3 }}>
+            <ControlWeather />
+          </Grid>
+          <Grid size={{ xs: 12, xl: 9 }}>
+            <TableWeather />
+          </Grid>
 
-      {/* Grid Anidado */}
-      <Grid container spacing={2}>
-        <Grid size={{ xs: 12, xl: 3 }}>
-          <ControlWeather />
         </Grid>
-        <Grid size={{ xs: 12, xl: 9 }}>
-          <TableWeather />
-        </Grid>
-        {/* Gráfico */}
-        <Grid size={{ xs: 12, xl: 4 }}>
-          <LineChartWeather />
-        </Grid>
+      </Grid>
+
+
+      {/* Gráfico */}
+      <Grid size={{ xs: 12, xl: 4 }}>
+        <LineChartWeather />
       </Grid>
 
     </Grid>
