@@ -1,11 +1,11 @@
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-interface Config {
+interface Indicador {
     title?: String;
     subtitle?: String;
     value: Number;
 }
-export default function IndicatorWeather(config:Config) {
+export default function IndicatorWeather(config:Indicador) {
     return (
         <Paper
              sx={{
