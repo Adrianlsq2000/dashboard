@@ -32,11 +32,11 @@ function App() {
         <Grid size={{ xs: 12, xl: 3 }}>
           <ControlWeather />
         </Grid>
-        <Grid size={{ xs: 12, xl: 3 }}>
+        <Grid size={{ xs: 12, xl: 9 }}>
           <TableWeather />
         </Grid>
         {/* Gráfico */}
-        <Grid size={{ xs: 12, xl: 3 }}>
+        <Grid size={{ xs: 12, xl: 9 }}>
           <LineChartWeather />
         </Grid>
       </Grid>
