@@ -54,11 +54,31 @@ function App() {
 
       let altitude = location.getAttribute("altitude") || ""
       dataToIndicators.push({ "title": "Location", "subtitle": "Altitude", "value": altitude })
+       // Crear arreglo temporal para items
+    const timeNodes = xml.getElementsByTagName("time");
+    const extractedItems = [];
 
+    for (let i = 0; i < Math.min(timeNodes.length, 6); i++) {
+      const node = timeNodes[i];
+      const from = node.getAttribute("from") || "";
+      const to = node.getAttribute("to") || "";
+      const precipitation = node.getElementsByTagName("precipitation")[0]?.getAttribute("probability") || "0";
+      const humidity = node.getElementsByTagName("humidity")[0]?.getAttribute("value") || "0";
+      const clouds = node.getElementsByTagName("clouds")[0]?.getAttribute("all") || "0";
+
+      extractedItems.push({
+        dateStart: from,
+        dateEnd: to,
+        precipitacion: precipitation,
+        humidity: humidity,
+        clouds: clouds,
+      });
+    }
       //console.log( dataToIndicators )
       {/* Modificación de la variable de estado mediante la función de actualización */ }
       setIndicators(dataToIndicators)
-
+      setItems(extractedItems)
+      
     }
 
     request();
@@ -104,7 +124,7 @@ function App() {
             <ControlWeather />
           </Grid>
           <Grid size={{ xs: 12, xl: 9 }}>
-            <TableWeather />
+            <TableWeather itemsIn={ items } />
           </Grid>
 
         </Grid>
