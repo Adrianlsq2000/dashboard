@@ -5,6 +5,7 @@ import ControlWeather from './components/ControlWeather';
 import Grid from '@mui/material/Grid2'
 import TableWeather from './components/TableWeather';
 import LineChartWeather from './components/LineChartWeather';
+import PastelGrafico from './components/pastelgrafico';
 {/* Hooks */ }
 import { useEffect, useState } from 'react';
 import Item from './interface/Item';
@@ -22,6 +23,9 @@ function App() {
   {/*Variables de estado y funcion de actualización */ }
   const [items, setItems] = useState<Item[]>([]);
   {/* Hook: useEffect */ }
+  let [selectedVariable, setSelectedVariable] = useState<number>(-1);
+  let [infoGraphic, setInfoGraphic] = useState<any[]>([]);
+  let [rowsTable, setRowsTable] = useState<any[]>([]);
   useEffect(() => {
 
     let request = async () => {
@@ -67,6 +71,8 @@ function App() {
         const precipitation = node.getElementsByTagName("precipitation")[0]?.getAttribute("probability") || "0";
         const humidity = node.getElementsByTagName("humidity")[0]?.getAttribute("value") || "0";
         const clouds = node.getElementsByTagName("clouds")[0]?.getAttribute("all") || "0";
+        const windDirection = node.getElementsByTagName("windDirection")[0]?.getAttribute("code") || "N/A";
+        const windSpeed = node.getElementsByTagName("windSpeed")[0]?.getAttribute("mps") || "0";
 
         extractedItems.push({
           dateStart: from,
@@ -74,27 +80,57 @@ function App() {
           precipitacion: precipitation,
           humidity: humidity,
           clouds: clouds,
+          windDirection: windDirection,
+          windSpeed: windSpeed
         });
       }
       //console.log( dataToIndicators )
       {/* Modificación de la variable de estado mediante la función de actualización */ }
       setIndicators(dataToIndicators)
       setItems(extractedItems)
+      let arrayObjects = Array.from(xml.getElementsByTagName("time")).map((timeElement) => {
+        let rangeHours = timeElement.getAttribute("from")?.split("T")[1] + " - " + timeElement.getAttribute("to")?.split("T")[1];
+        let windDirection = timeElement.getElementsByTagName("windDirection")[0]?.getAttribute("deg") + " " + timeElement.getElementsByTagName("windDirection")[0]?.getAttribute("code");
+        let precipitation = timeElement.getElementsByTagName("precipitation")[0]?.getAttribute("probability");
+        let humidity = timeElement.getElementsByTagName("humidity")[0]?.getAttribute("value");
+        let clouds = timeElement.getElementsByTagName("clouds")[0]?.getAttribute("all");
+        return { rangeHours, windDirection, precipitation, humidity, clouds };
+      });
 
+      setRowsTable(arrayObjects);
+
+      let arrayObjectsG = Array.from(xml.getElementsByTagName("time")).map((timeElement) => {
+        let hour = timeElement.getAttribute("from")?.split("T")[1].substring(0, 5);
+        let precipitation = timeElement.getElementsByTagName("precipitation")[0]?.getAttribute("probability");
+        let humidity = timeElement.getElementsByTagName("humidity")[0]?.getAttribute("value");
+        let clouds = timeElement.getElementsByTagName("clouds")[0]?.getAttribute("all");
+        return { hour, precipitation, humidity, clouds };
+      });
+
+      setInfoGraphic(arrayObjectsG);
     }
 
     request();
 
   }, [])
 
+  const handleVariableChange = (value: number) => {
+    setSelectedVariable(value);
+  };
 
   return (
     <Grid container sx={{ width: '100%', justifyContent: 'center' }}>
       <Grid item xs={12} sx={{ textAlign: 'center', marginBottom: 3 }}>
         <h1 style={{ whiteSpace: 'pre-line' }}>Clima en Guayaquil</h1>
-        <Grid sm={4} md={3} lg={3} xl={3} sx={{ paddingY: 2, paddingX: 2, display: 'flex', justifyContent: 'center', zIndex: 1 }}>
-            <Summary></Summary>
+        <h2>Condiciones Actuales </h2>
+        <Grid container spacing={2} justifyContent="center">
+          <Grid sm={4} md={3} lg={3} xl={3} sx={{ paddingY: 2, paddingX: 2, display: 'flex', justifyContent: 'center', zIndex: 1 }}>
+            <Summary />
           </Grid>
+          <Grid sm={4} md={3} lg={3} xl={3} sx={{ paddingY: 2, paddingX: 2, display: 'flex', justifyContent: 'center', zIndex: 1 }}>
+            <PastelGrafico graficos={infoGraphic} />
+          </Grid>
+        </Grid>
         <h2 style={{ whiteSpace: 'pre-line' }}>DETELLES DE UBICACION</h2>
       </Grid>
       <Grid container spacing={5}>
@@ -131,8 +167,8 @@ function App() {
 
         <Grid size={{ xs: 12, xl: 12 }} justifyContent="center">
           <h2>TENDENCIAS CLIMATICAS</h2>
-          <ControlWeather />   {/*seleccion*/}
-          <LineChartWeather /> {/*Grafico*/}
+          <ControlWeather onVariableChange={handleVariableChange} />   {/*seleccion*/}
+          <LineChartWeather selectedVariable={selectedVariable} graficos={infoGraphic} /> {/*Grafico*/}
         </Grid>
         {/* Tabla */}
         <Grid size={{ xs: 12, xl: 12 }}>

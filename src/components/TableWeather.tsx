@@ -35,6 +35,8 @@ export default function TableWeather(props: MyProp) {
             <TableCell align="right">Precipitación</TableCell>
             <TableCell align="right">Humedad</TableCell>
             <TableCell align="right">Nubosidad</TableCell>
+            <TableCell align="right">Velocidad del viento (m/s)</TableCell>
+            <TableCell align="right">Dirección del viento</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -44,12 +46,15 @@ export default function TableWeather(props: MyProp) {
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.dateStart.split("T")[1]} {/* Extrae solo la hora */}
+                {row.dateStart.split("T")[1]}
               </TableCell>
-              <TableCell align="right">{row.dateEnd.split("T")[1]}</TableCell> {/* Extrae solo la hora */}
+              <TableCell align="right">{row.dateEnd.split("T")[1]}</TableCell>
               <TableCell align="right">{row.precipitacion}</TableCell>
               <TableCell align="right">{row.humidity}</TableCell>
               <TableCell align="right">{row.clouds}</TableCell>
+              <TableCell align="right">{row.windSpeed}</TableCell>
+              <TableCell align="right">{row.windDirection}</TableCell>
+              
             </TableRow>
           ))}
         </TableBody>

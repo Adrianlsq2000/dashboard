@@ -5,4 +5,6 @@ export default interface Item{
     precipitacion: String;
     humidity:String;
     clouds: String;
+    windDirection: String;
+    windSpeed: String;
 }
