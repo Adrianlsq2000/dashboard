@@ -1,4 +1,5 @@
 import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 import { LineChart } from '@mui/x-charts/LineChart';
 
 const uData = [4000, 3000, 2000, 2780, 1890, 2390, 3490];
@@ -15,13 +16,10 @@ const xLabels = [
 
 export default function LineChartWeather() {
     return (
-        <Paper
-            sx={{
-                p: 2,
-                display: 'flex',
-                flexDirection: 'column'
-            }}
-        >
+        <Paper sx={{p: 2,display: 'flex',flexDirection: 'column'}}>
+            <Typography variant="h6" component="div" gutterBottom>
+                TENDENCIAS CLIMATICAS
+            </Typography>
 
             {/* Componente para un gráfico de líneas */}
             <LineChart

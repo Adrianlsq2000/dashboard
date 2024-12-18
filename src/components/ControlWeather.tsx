@@ -47,7 +47,7 @@ export default function ControlWeather() {
             >
 
                 <Typography mb={2} component="h3" variant="h6" color="primary">
-                    Variables Meteorológicas
+                    Tendencias Climaticas
                 </Typography>
 
                 <Box sx={{ minWidth: 120 }}>
