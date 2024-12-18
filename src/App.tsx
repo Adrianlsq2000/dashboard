@@ -8,6 +8,8 @@ import LineChartWeather from './components/LineChartWeather';
 {/* Hooks */ }
 import { useEffect, useState } from 'react';
 import Item from './interface/Item';
+import Summary from './components/Summary';
+
 interface Indicator {
   title?: String;
   subtitle?: String;
@@ -17,8 +19,8 @@ interface Indicator {
 function App() {
   {/* Variable de estado y función de actualización */ }
   let [indicators, setIndicators] = useState<Indicator[]>([])
-  {/*Variables de estado y funcion de actualización */}
-  const [items, setItems] = useState<Item[]> ([]); 
+  {/*Variables de estado y funcion de actualización */ }
+  const [items, setItems] = useState<Item[]>([]);
   {/* Hook: useEffect */ }
   useEffect(() => {
 
@@ -54,31 +56,31 @@ function App() {
 
       let altitude = location.getAttribute("altitude") || ""
       dataToIndicators.push({ "title": "Location", "subtitle": "Altitude", "value": altitude })
-       // Crear arreglo temporal para items
-    const timeNodes = xml.getElementsByTagName("time");
-    const extractedItems = [];
+      // Crear arreglo temporal para items
+      const timeNodes = xml.getElementsByTagName("time");
+      const extractedItems = [];
 
-    for (let i = 0; i < Math.min(timeNodes.length, 6); i++) {
-      const node = timeNodes[i];
-      const from = node.getAttribute("from") || "";
-      const to = node.getAttribute("to") || "";
-      const precipitation = node.getElementsByTagName("precipitation")[0]?.getAttribute("probability") || "0";
-      const humidity = node.getElementsByTagName("humidity")[0]?.getAttribute("value") || "0";
-      const clouds = node.getElementsByTagName("clouds")[0]?.getAttribute("all") || "0";
+      for (let i = 0; i < Math.min(timeNodes.length, 6); i++) {
+        const node = timeNodes[i];
+        const from = node.getAttribute("from") || "";
+        const to = node.getAttribute("to") || "";
+        const precipitation = node.getElementsByTagName("precipitation")[0]?.getAttribute("probability") || "0";
+        const humidity = node.getElementsByTagName("humidity")[0]?.getAttribute("value") || "0";
+        const clouds = node.getElementsByTagName("clouds")[0]?.getAttribute("all") || "0";
 
-      extractedItems.push({
-        dateStart: from,
-        dateEnd: to,
-        precipitacion: precipitation,
-        humidity: humidity,
-        clouds: clouds,
-      });
-    }
+        extractedItems.push({
+          dateStart: from,
+          dateEnd: to,
+          precipitacion: precipitation,
+          humidity: humidity,
+          clouds: clouds,
+        });
+      }
       //console.log( dataToIndicators )
       {/* Modificación de la variable de estado mediante la función de actualización */ }
       setIndicators(dataToIndicators)
       setItems(extractedItems)
-      
+
     }
 
     request();
@@ -87,48 +89,60 @@ function App() {
 
 
   return (
-    <Grid container spacing={5}>
+    <Grid container sx={{ width: '100%', justifyContent: 'center' }}>
+      <Grid item xs={12} sx={{ textAlign: 'center', marginBottom: 3 }}>
+        <h1 style={{ whiteSpace: 'pre-line' }}>Clima en Guayaquil</h1>
+        <Grid sm={4} md={3} lg={3} xl={3} sx={{ paddingY: 2, paddingX: 2, display: 'flex', justifyContent: 'center', zIndex: 1 }}>
+            <Summary></Summary>
+          </Grid>
+        <h2 style={{ whiteSpace: 'pre-line' }}>DETELLES DE UBICACION</h2>
+      </Grid>
+      <Grid container spacing={5}>
 
-      {/* Indicadores */}
-      {/*<Grid size={{ xs: 12, xl: 3 }}>
-        <IndicatorWeather title={'Indicator 1'} subtitle={'Unidad 1'} value={"1.23"} />
-      </Grid>
-      <Grid size={{ xs: 12, xl: 3 }}>
-        <IndicatorWeather title={'Indicator 2'} subtitle={'Unidad 2'} value={"3.12"} />
-      </Grid>
-      <Grid size={{ xs: 12, xl: 3 }}>
-        <IndicatorWeather title={'Indicator 3'} subtitle={'Unidad 3'} value={"2.31"} />
-      </Grid>
-      <Grid size={{ xs: 12, xl: 3 }}>
-        <IndicatorWeather title={'Indicator 4'} subtitle={'Unidad 4'} value={"3.21"} />
-      </Grid>
-        */}
-      {
-        indicators
-          .map(
-            (indicator, idx) => (
-              <Grid key={idx} size={{ xs: 12, /*md*/ xl: 3 }}>
-                <IndicatorWeather
-                  title={indicator["title"]}
-                  subtitle={indicator["subtitle"]}
-                  value={indicator["value"]} />
-              </Grid>
+        {/* Indicadores */}
+        {/*<Grid size={{ xs: 12, xl: 3 }}>
+          <IndicatorWeather title={'Indicator 1'} subtitle={'Unidad 1'} value={"1.23"} />
+        </Grid>
+        <Grid size={{ xs: 12, xl: 3 }}>
+          <IndicatorWeather title={'Indicator 2'} subtitle={'Unidad 2'} value={"3.12"} />
+        </Grid>
+        <Grid size={{ xs: 12, xl: 3 }}>
+          <IndicatorWeather title={'Indicator 3'} subtitle={'Unidad 3'} value={"2.31"} />
+        </Grid>
+        <Grid size={{ xs: 12, xl: 3 }}>
+          <IndicatorWeather title={'Indicator 4'} subtitle={'Unidad 4'} value={"3.21"} />
+        </Grid>
+          */}
+
+        {
+          indicators
+            .map(
+
+              (indicator, idx) => (
+                <Grid key={idx} size={{ xs: 12, /*md*/ xl: 3 }}>
+                  <IndicatorWeather
+                    title={indicator["title"]}
+                    subtitle={indicator["subtitle"]}
+                    value={indicator["value"]} />
+                </Grid>
+              )
             )
-          )
-      }
-      
-      <Grid size={{ xs: 12, xl: 12 }}>
-            <ControlWeather />   {/*seleccion*/}
-            <LineChartWeather /> {/*Grafico*/}
+        }
+
+        <Grid size={{ xs: 12, xl: 12 }} justifyContent="center">
+          <h2>TENDENCIAS CLIMATICAS</h2>
+          <ControlWeather />   {/*seleccion*/}
+          <LineChartWeather /> {/*Grafico*/}
+        </Grid>
+        {/* Tabla */}
+        <Grid size={{ xs: 12, xl: 12 }}>
+          <h2>TABLA DE DATOS METEOROLOGICOS</h2>
+          <TableWeather itemsIn={items} />
+        </Grid>
+
+
+
       </Grid>
-      {/* Tabla */}
-      <Grid size={{ xs: 12, xl: 12 }}>
-            <TableWeather itemsIn={ items } />
-      </Grid>
-
-
-      
-
     </Grid>
   )
 }

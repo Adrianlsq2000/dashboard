@@ -7,6 +7,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useEffect, useState } from "react";
 import Item from "../interface/Item";
+import Typography from '@mui/material/Typography';
 
 // Interfaz para las props
 interface MyProp {
@@ -23,6 +24,9 @@ export default function TableWeather(props: MyProp) {
 
   return (
     <TableContainer component={Paper}>
+      <Typography mb={1} component="h3" variant="h6" color="primary">
+                    Historial Climático
+                </Typography>
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>

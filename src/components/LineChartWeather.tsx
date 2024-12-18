@@ -16,14 +16,12 @@ const xLabels = [
 
 export default function LineChartWeather() {
     return (
-        <Paper sx={{p: 2,display: 'flex',flexDirection: 'column'}}>
-            <Typography variant="h6" component="div" gutterBottom>
-                TENDENCIAS CLIMATICAS
-            </Typography>
+        <Paper sx={{p: 1,display: 'flex',flexDirection: 'column'}}>
+            
 
             {/* Componente para un gráfico de líneas */}
             <LineChart
-                width={400}
+                width={600}
                 height={250}
                 series={[
                     { data: pData, label: 'pv' },
