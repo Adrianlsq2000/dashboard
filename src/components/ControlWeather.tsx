@@ -1,5 +1,5 @@
 {/* Hooks */ }
-import { useState, useRef} from 'react';
+import { useRef } from 'react';
 {/* Componentes MUI */ }
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
@@ -19,7 +19,6 @@ export default function ControlWeather({ onVariableChange }: ControlProps) {
     {/* Constante de referencia a un elemento HTML */ }
     const descriptionRef = useRef<HTMLDivElement>(null);
      {/* Variable de estado y función de actualización */}
-     let [selected, setSelected] = useState(-1)
     {/* Arreglo de objetos */ }
     let items = [
         { "name": "Precipitación", "description": "Cantidad de agua que cae sobre una superficie en un período específico." },
@@ -34,7 +33,6 @@ export default function ControlWeather({ onVariableChange }: ControlProps) {
 
         let idx = parseInt(event.target.value)
         //alert(idx);
-        setSelected(idx);
         onVariableChange(idx); // Emitir el valor seleccionado al padre
 
         {/* Modificación de la referencia descriptionRef */}

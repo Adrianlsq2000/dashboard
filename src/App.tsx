@@ -10,6 +10,7 @@ import PastelGrafico from './components/pastelgrafico';
 import { useEffect, useState } from 'react';
 import Item from './interface/Item';
 import Summary from './components/Summary';
+import icono from './assets/icono.png'; // Importa la imagen
 
 interface Indicator {
   title?: String;
@@ -25,7 +26,6 @@ function App() {
   {/* Hook: useEffect */ }
   let [selectedVariable, setSelectedVariable] = useState<number>(-1);
   let [infoGraphic, setInfoGraphic] = useState<any[]>([]);
-  let [rowsTable, setRowsTable] = useState<any[]>([]);
   useEffect(() => {
 
     let request = async () => {
@@ -97,17 +97,7 @@ function App() {
         return { rangeHours, windDirection, precipitation, humidity, clouds };
       });
 
-      setRowsTable(arrayObjects);
-
-      let arrayObjectsG = Array.from(xml.getElementsByTagName("time")).map((timeElement) => {
-        let hour = timeElement.getAttribute("from")?.split("T")[1].substring(0, 5);
-        let precipitation = timeElement.getElementsByTagName("precipitation")[0]?.getAttribute("probability");
-        let humidity = timeElement.getElementsByTagName("humidity")[0]?.getAttribute("value");
-        let clouds = timeElement.getElementsByTagName("clouds")[0]?.getAttribute("all");
-        return { hour, precipitation, humidity, clouds };
-      });
-
-      setInfoGraphic(arrayObjectsG);
+      setInfoGraphic(arrayObjects);
     }
 
     request();
@@ -120,14 +110,18 @@ function App() {
 
   return (
     <Grid container sx={{ width: '100%', justifyContent: 'center' }}>
-      <Grid item xs={12} sx={{ textAlign: 'center', marginBottom: 3 }}>
-        <h1 style={{ whiteSpace: 'pre-line' }}>Clima en Guayaquil</h1>
-        <h2>Condiciones Actuales </h2>
+      <Grid sx={{ textAlign: 'center', marginBottom: 3 }}>
+        <h1 style={{ whiteSpace: 'pre-line', display: 'inline-flex', alignItems: 'center' }}>
+          <img src={icono} alt="IconoI" style={{ marginRight: '10px', height: '40px' }} />
+          CLIMA EN GUAYAQUIL
+          <img src={icono} alt="IconoD" style={{ marginRight: '10px', height: '40px' }} />
+        </h1>
+        <h2>CONDICIONES ACTUALES</h2>
         <Grid container spacing={2} justifyContent="center">
-          <Grid sm={4} md={3} lg={3} xl={3} sx={{ paddingY: 2, paddingX: 2, display: 'flex', justifyContent: 'center', zIndex: 1 }}>
+          <Grid sx={{ paddingY: 2, paddingX: 2, display: 'flex', justifyContent: 'center', zIndex: 1 }} component="div">
             <Summary />
           </Grid>
-          <Grid sm={4} md={3} lg={3} xl={3} sx={{ paddingY: 2, paddingX: 2, display: 'flex', justifyContent: 'center', zIndex: 1 }}>
+          <Grid sx={{ paddingY: 2, paddingX: 2, display: 'flex', justifyContent: 'center', zIndex: 1 }} component="div">
             <PastelGrafico graficos={infoGraphic} />
           </Grid>
         </Grid>
@@ -180,7 +174,7 @@ function App() {
 
       </Grid>
     </Grid>
-  )
+  );
 }
 
 export default App

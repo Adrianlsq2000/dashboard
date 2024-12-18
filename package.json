@@ -13,9 +13,10 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
-    "@emotion/react": "^11.13.5",
-    "@emotion/styled": "^11.13.5",
-    "@mui/material": "^6.1.8",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^6.2.1",
+    "@mui/system": "^6.2.1",
     "@mui/x-charts": "^7.22.3",
     "chart.js": "^4.4.7",
     "react": "^18.3.1",
@@ -26,8 +27,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
+    "@types/react": "^18.3.17",
+    "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.3",
     "eslint": "^9.13.0",
     "eslint-plugin-react-hooks": "^5.0.0",
