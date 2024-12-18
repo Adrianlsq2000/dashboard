@@ -116,25 +116,18 @@ function App() {
             )
           )
       }
+      
+      <Grid size={{ xs: 12, xl: 12 }}>
+            <ControlWeather />   {/*seleccion*/}
+            <LineChartWeather /> {/*Grafico*/}
+      </Grid>
       {/* Tabla */}
-      <Grid size={{ xs: 12, xl: 8 }}>
-        {/* Grid Anidado */}
-        <Grid container spacing={2}>
-          <Grid size={{ xs: 12, xl: 3 }}>
-            <ControlWeather />
-          </Grid>
-          <Grid size={{ xs: 12, xl: 9 }}>
+      <Grid size={{ xs: 12, xl: 12 }}>
             <TableWeather itemsIn={ items } />
-          </Grid>
-
-        </Grid>
       </Grid>
 
 
-      {/* Gráfico */}
-      <Grid size={{ xs: 12, xl: 4 }}>
-        <LineChartWeather />
-      </Grid>
+      
 
     </Grid>
   )
